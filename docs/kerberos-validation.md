@@ -1,47 +1,82 @@
-# Kerberos Validation
+# Kerberos Authentication Validation
 
 ## Authentication Protocol
-The lab uses Kerberos as the default authentication protocol for Active Directory.
 
-## Validation Method
-Kerberos tickets were inspected on the Windows 10 client using:
+Active Directory uses Kerberos as its default authentication protocol.
+
+Kerberos allows secure authentication without repeatedly transmitting user credentials across the network.
+
+---
+
+## Kerberos Validation Method
+
+Authentication was validated on the Windows client using:
 
 ```powershell
 klist
 ```
 
-## Tickets Observed
+This command displays the Kerberos tickets currently held by the logged-in user.
 
-### Ticket Granting Ticket (TGT)
-```text
+---
+
+## Ticket Granting Ticket (TGT)
+
+After logging in, the following ticket was observed:
+
+```
 krbtgt/TREASURY.LOCAL
 ```
 
-This confirmed that the user successfully authenticated to the domain and received a Ticket Granting Ticket.
+This represents the Ticket Granting Ticket issued by the Domain Controller.
 
-### Service Ticket
-```text
+The TGT allows the user to request service tickets for accessing network resources.
+
+---
+
+## Service Ticket
+
+After accessing the file share, an additional ticket appeared:
+
+```
 cifs/DC01
 ```
 
-This ticket appeared after accessing the SMB file share on the Domain Controller.
+This ticket was issued for the SMB service hosted on the Domain Controller.
 
-It confirmed that:
-- the client requested a service ticket
-- Kerberos was used for SMB authentication
-- access to the network resource was authenticated through Active Directory
+---
 
 ## Authentication Flow
-```text
+
+The authentication process follows this sequence:
+
+```
 User logs into workstation
 ↓
 Domain Controller validates credentials
 ↓
-TGT issued
+Ticket Granting Ticket issued
 ↓
 User requests service ticket
 ↓
-CIFS ticket issued
+Service ticket issued
 ↓
-User accesses \\DC01\oee
+User accesses network resource
 ```
+
+---
+
+## Resource Access Example
+
+Example resource accessed during validation:
+
+```
+\\DC01\oee
+```
+
+Access to the resource required both:
+
+- successful Kerberos authentication
+- proper group-based authorization
+
+This confirmed that Kerberos authentication was functioning correctly within the domain.
