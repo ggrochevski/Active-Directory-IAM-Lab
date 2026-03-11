@@ -19,6 +19,20 @@ The objective of this project is to demonstrate practical identity administratio
 
 ---
 
+# Project Summary
+
+| Component | Implementation |
+|----------|---------------|
+| Identity Provider | Active Directory Domain Services |
+| Authentication Protocol | Kerberos |
+| Authorization Model | RBAC using AGDLP |
+| Access Control | NTFS Permissions |
+| Policy Enforcement | Group Policy |
+| Infrastructure | Windows Server 2019 + Windows 10 |
+| Virtualization | Oracle VirtualBox |
+
+---
+
 # Lab Architecture
 
 **Virtualization Platform:** Oracle VirtualBox  
@@ -37,11 +51,8 @@ The objective of this project is to demonstrate practical identity administratio
 - Active Directory Domain Services (AD DS)
 - DNS Server
 
-The Windows client uses the Domain Controller as its DNS server, enabling:
-
-- Active Directory service discovery
-- domain authentication
-- Kerberos ticket issuance
+The Windows client is configured to use the Domain Controller as its DNS server.  
+This enables Active Directory service discovery, domain authentication, and Kerberos ticket issuance.
 
 ---
 
@@ -54,7 +65,7 @@ flowchart TB
         CL["CLIENT01<br>Windows 10<br>10.10.10.20"]
     end
 
-    CL -->|DNS| DC
+    CL -->|DNS Queries| DC
     CL -->|Kerberos Authentication| DC
     CL -->|SMB Access| DC
 ```
@@ -67,7 +78,7 @@ This lab demonstrates several core Identity & Access Management capabilities.
 
 ### Active Directory Administration
 
-- Domain controller deployment
+- Domain Controller deployment
 - Organizational Unit design
 - user and group management
 
@@ -122,15 +133,15 @@ Authentication flow:
 
 ```
 User login
-    ↓
+↓
 Domain Controller validates credentials
-    ↓
+↓
 Ticket Granting Ticket issued
-    ↓
+↓
 Service ticket requested
-    ↓
+↓
 CIFS ticket issued
-    ↓
+↓
 Access to \\DC01\oee
 ```
 
@@ -176,23 +187,39 @@ These tests validated group-based authorization using the AGDLP model.
 Detailed documentation for the lab components:
 
 - **Lab Architecture**  
-  `docs/architecture.md`
+  [Lab Architecture](docs/architecture.md)
 
 - **Active Directory Configuration**  
-  `docs/active-directory.md`
+  [Active Directory Configuration](docs/active-directory.md)
 
 - **Kerberos Authentication Validation**  
-  `docs/kerberos-validation.md`
+  [Kerberos Validation](docs/kerberos-validation.md)
 
 - **RBAC and Access Control**  
-  `docs/rbac-and-access-control.md`
+  [RBAC and Access Control](docs/rbac-and-access-control.md)
 
 - **Group Policy Configuration**  
-  `docs/group-policy.md`
+  [Group Policy](docs/group-policy.md)
 
 - **Security Logging**  
-  `docs/security-logging.md`
-  
+  [Security Logging](docs/security-logging.md)
+
+---
+
+# Lab Screenshots
+
+### Active Directory Domain Structure
+
+![AD Structure](images/ad-structure.png)
+
+### Kerberos Ticket Validation
+
+![Kerberos Tickets](images/klist-output.png)
+
+### File Share Access Test
+
+![File Share Access](images/share-access.png)
+
 ---
 
 # Skills Demonstrated
