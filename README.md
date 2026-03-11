@@ -192,8 +192,8 @@ Detailed documentation for the lab components:
 
 - **Security Logging**  
   `docs/security-logging.md`
-
-  ---
+  
+---
 
 # Skills Demonstrated
 
